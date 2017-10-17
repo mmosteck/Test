@@ -16,4 +16,11 @@ public class MainController
         System.out.println("Keks");
         return "index.html";
     }
+
+    @RequestMapping("/1")
+    String firstPage()
+    {
+        System.out.println("first page!");
+        return "firstPage.html";
+    }
 }
