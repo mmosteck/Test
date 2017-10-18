@@ -17,10 +17,17 @@ public class MainController
         return "index.html";
     }
 
-    @RequestMapping("/1")
-    String firstPage()
+    @RequestMapping("/infao")
+    String info()
     {
         //System.out.println("first page!");
-        return "firstPage.html";
+        return "info.html";
+    }
+
+    @RequestMapping("/t")
+    String about()
+    {
+        //System.out.println("first page!");
+        return "test.html";
     }
 }
