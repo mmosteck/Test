@@ -33,14 +33,22 @@
 
 #content {
     color: #2E2E2E;
-    background-color: #33b5e5;
+    background-color: #0582CA;
     font-family: 'Bitter', sans-serif;
 }
 .nav {
     position:absolute;
     bottom:0;
     left:10%;
+
 }
+.navbar .nav li a
+{
+    color: #C2B8B2;
+    font-family: 'Bitter', sans-serif;
+
+}
+
 
 /*.navbar-image*/
 /*{*/
@@ -67,5 +75,6 @@
 
 .navbar {
     min-height: 150px;
-    background-color: #0099CC;
+    background-color: #006494;
+
 }
