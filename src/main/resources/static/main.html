@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app = "app">
+<script src="js/ng-flow-standalone.js"></script>
+
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
@@ -15,6 +17,61 @@
 
 </p>
 
+<br>
+<br>
+
+
+<h2>How to start?</h2>
+
+    <ul >
+        <h3> <li >Throw your project into shiny form</li> </h3>
+        <h3> <li >Set options below</li> </h3>
+        <h3> <li >Profit!</li> </h3>
+    </ul>
+
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div flow-init="" flow-files-submitted="$flow.upload()" class="ng-scope">
+                <div class="drop" flow-drop="" ng-class="dropClass">
+                    <span class="btn btn-default" flow-btn="">Upload File<input type="file" multiple="multiple" style="visibility: hidden; position: absolute;"></span>
+                    <span class="btn btn-default" flow-btn="" flow-directory="" ng-show="$flow.supportDirectory">Upload Folder<input type="file" multiple="multiple" webkitdirectory="webkitdirectory" style="visibility: hidden; position: absolute;"></span>
+                    <b>OR</b>
+                    Drag And Drop your file here
+                </div>
+
+                <br>
+
+                <div class="well">
+                    <a class="btn btn-small btn-success" ng-click="$flow.resume()">Resume all</a>
+                    <a class="btn btn-small btn-danger" ng-click="$flow.pause()">Pause all</a>
+                    <a class="btn btn-small btn-info" ng-click="$flow.cancel()">Cancel all</a>
+                    <span class="label label-info ng-binding">Total Size: 0bytes</span>
+                </div>
+
+                <div>
+
+                    <!-- ngRepeat: file in $flow.files -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            Content 2
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
+
 
 </body>
+
 </html>

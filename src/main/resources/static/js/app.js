@@ -1,3 +1,4 @@
+
 function loadHome()
 {
         $("#content").load('main.html');
