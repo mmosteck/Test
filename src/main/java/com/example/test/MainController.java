@@ -1,6 +1,7 @@
 package com.example.test;
 
 
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -47,8 +48,9 @@ public class MainController
     @RequestMapping(value = "/upload",
             method = RequestMethod.POST
            )
-    public @ResponseBody void handleFileUpload() {
+    public @ResponseBody void handleFileUpload(@RequestParam("plik") List<MultipartFile> file) {
 
         //System.out.println(request.getFiles(null));
+        file.forEach(f -> System.out.println(f.getOriginalFilename()));
     }
 }

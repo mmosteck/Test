@@ -3,12 +3,16 @@
 <head>
     <title>basic</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/ng-flow-standalone.js"></script>
     <script src="js/fusty-flow.js"></script>
     <script src="js/fusty-flow-factory.js"></script>
+    <script src="js/dropzone.js"></script>
     <script src="js/main.js"></script>
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
           rel="stylesheet"/>
+    <link href='css/basic.css' rel="stylesheet" type="text/css" />
+    <link href='css/dropzone.css' rel="stylesheet" type="text/css" />
 </head>
 <body flow-prevent-drop
       ng-style="style"
@@ -93,8 +97,14 @@ ng-controller = "Ctrl">
         Drag And Drop your file here
     </div>
 
-    <a class="btn btn-small btn-success" ng-click="check($flow.files)">TEST</a>
+    <a class="btn btn-small btn-success" ng-click="upload()">TEST</a>
 </div>
+
+<form action="/upload"
+      class="dropzone"
+      id="myD"
+      enctype="multipart/form-data"></form>
+
 
 </body>
 </html>
