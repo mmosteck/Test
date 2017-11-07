@@ -3,13 +3,12 @@ package com.example.test;
 
 import com.sun.org.apache.xpath.internal.operations.Mult;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
@@ -18,6 +17,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -31,11 +31,12 @@ public class MainController
         return "index.html";
     }
 
-    @RequestMapping("/uploadsdsd")
-    String info()
+    @RequestMapping(value = "/up",
+    method = RequestMethod.POST
+           )
+    public @ResponseBody void info(@RequestParam("ff") List<MultipartFile> files)
     {
-        System.out.println("uploaddd");
-        return "info.html";
+        files.forEach(f -> System.out.println(f.getOriginalFilename()));
     }
 
     @RequestMapping("/t")

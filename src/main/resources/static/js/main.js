@@ -9,33 +9,19 @@
 
 
 Dropzone.options.myD = {
-     uploadMultiple:true,
-     paramName: "plik",
+    uploadMultiple:true,
+    paramName: "plik",
     autoProcessQueue: false,
     parallelUploads: 5,
-     init: function()
-     {
-         this.on("processingmultiple", function(file) { alert(this.options.paramName); });
-     }
+    acceptedFiles: ".kt",
+    previewContainer: false,
+    error: function(file)
+    {
+        console.log("err");
+    }
+
  };
-var app = angular.module('app', ['flow'])
-    .config(['flowFactoryProvider', function (flowFactoryProvider) {
-        flowFactoryProvider.defaults = {
-            target: '/upload',
-            permanentErrors: [500, 501],
-            maxChunkRetries: 1,
-            chunkRetryInterval: 5000,
-            simultaneousUploads: 1,
-            testChunks: false
-        };
-        flowFactoryProvider.on('catchAll', function (event) {
-            console.log('catchAll', arguments);
-        });
-        // Can be used with different implementations of Flow.js
-        flowFactoryProvider.factory = fustyFlowFactory;
-
-
-    }]);
+var app = angular.module('app', []);
 
 app.controller("Ctrl", function ($scope, $http) {
     $scope.check = function check(files)
@@ -60,9 +46,12 @@ app.controller("Ctrl", function ($scope, $http) {
 
     $scope.upload = function ()
     {
-        console.log("keks");
-        var myDropzone = Dropzone.forElement(".dropzone");
-        myDropzone.processQueue();
+       var myDropzone = Dropzone.forElement(".dropzone");
+       myDropzone.processQueue();
+
+       var form = document.forms['filesform'];
+       console.log(form);
+       form.submit();
     };
 });
 
