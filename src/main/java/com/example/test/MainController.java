@@ -36,6 +36,7 @@ public class MainController
            )
     public @ResponseBody void info(@RequestParam("ff") List<MultipartFile> files)
     {
+        System.out.println("input files: ");
         files.forEach(f -> System.out.println(f.getOriginalFilename()));
     }
 
@@ -52,6 +53,7 @@ public class MainController
     public @ResponseBody void handleFileUpload(@RequestParam("plik") List<MultipartFile> file) {
 
         //System.out.println(request.getFiles(null));
+        System.out.println("dropzone files: ");
         file.forEach(f -> System.out.println(f.getOriginalFilename()));
     }
 }

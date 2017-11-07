@@ -8,50 +8,53 @@
  */
 
 
+
 Dropzone.options.myD = {
     uploadMultiple:true,
     paramName: "plik",
     autoProcessQueue: false,
     parallelUploads: 5,
     acceptedFiles: ".kt",
-    previewContainer: false,
-    error: function(file)
+    //previewTemplate: '<div class="dz-preview dz-file-preview"><div class="dz-details"><div class="dz-filename"><span data-dz-name></span></div><div class="dz-size" data-dz-size></div></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div>',
+    init: function()
     {
-        console.log("err");
-    }
+         var input = document.getElementById("inputa");
+         input.onchange = function(event)
+         {
+            var dropzone = Dropzone.forElement(".dropzone");
+            dropzone.removeAllFiles(true);
+            var filesArray = Array.from(input.files);
+            for(var i = 0; i < filesArray.length; i++)
+            {
+                dropzone.addFile(filesArray[i]);
+            }
+         }
+    },
 
- };
+    // File extension validation
+    addedfile: function(file) {
+                    var extension = file.name.split('.').pop();
+                    console.log("added file " + file);
+                    console.log("current files " + this.getAddedFiles());
+                    console.log("accepted files " + this.getAcceptedFiles());
+                    if (extension != "kt")
+                    {
+                        this.removeFile(file);
+                    }
+                }};
 var app = angular.module('app', []);
 
 app.controller("Ctrl", function ($scope, $http) {
-    $scope.check = function check(files)
-    {
-        console.log(files);
-        var xhr = new XMLHttpRequest();
-        var formData=new FormData();
-        for(var file in files) {
-            formData.append("file", file.name);
-        }
-
-        xhr.open('POST', '/upload');
-        xhr.send(formData);
-        console.log(formData);
-        // formData.append("file",files);
-        // $http.post('/upload', formData, {
-        // transformRequest: angular.identity,
-        //     headers: {'Content-Type': undefined}
-   // });
-
-    };
 
     $scope.upload = function ()
     {
-       var myDropzone = Dropzone.forElement(".dropzone");
-       myDropzone.processQueue();
+       var dropzone = Dropzone.forElement(".dropzone");
+       dropzone.processQueue();
 
-       var form = document.forms['filesform'];
-       console.log(form);
-       form.submit();
+      // var form = document.forms['filesform'];
+     //  console.log(form);
+      // form.submit();
+
     };
 });
 
