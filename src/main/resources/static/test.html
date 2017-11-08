@@ -9,6 +9,7 @@
     <script src="js/fusty-flow-factory.js"></script>
     <script src="js/dropzone.js"></script>
     <script src="js/main.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
           rel="stylesheet"/>
     <link href='css/basic.css' rel="stylesheet" type="text/css" />
@@ -18,22 +19,30 @@
 <body ng-controller = "Ctrl">
 
 <button class="custom-btn btn-outlined btn-theme btn-lg" ng-click="upload()">TEST</button>
-<form action="/upload"
+<div class = "container">
+<form action="/uploada"
       class="dropzone"
       id="myD"
-      enctype="multipart/form-data">
+      enctype="multipart/form-data"></form>
+</div>
 
-    </form>
 
-
-    <p>
     <div class="upload-btn-wrapper">
         <button class="btn">Upload a directory <input type='file' name="ff" id = "inputa" webkitdirectory mozdirectory/></button>
     </div>
+<br>
 
-</p>
+<div class="dropzone-previews" id = "pre">
+    <span style="font-size:8.0em;" class="glyphicon glyphicon-folder-open"></span><br>
 
 
-<iframe width="0" height="0" style="display: none;" name="dummyframe" id="dummyframe"></iframe>
+    <div id = "totalFiles"></div>
+    <br>
+    <div id = "totalSize"></div>
+</div>
+<br>
+<br>
+<button class="custom-btn btn-outlined btn-theme btn-lg" ng-click="clearFiles()">Clear all files</button>
+<!-- <iframe width="0" height="0" style="display: none;" name="dummyframe" id="dummyframe"></iframe> /-->
 </body>
 </html>
