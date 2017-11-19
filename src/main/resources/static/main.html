@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" ng-app = "app">
-<script src="js/ng-flow-standalone.js"></script>
+
+
 
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Main</title>
+
+    <link href='css/basic.css' rel="stylesheet" type="text/css" />
+    <link href='css/dropzone.css' rel="stylesheet" type="text/css" />
+    <link href='css/uploadbutton.css' rel="stylesheet" type="text/css" />
+    <script src="js/dropzone.js"></script>
 </head>
-<body>
+<body ng-controller = "Ctrl">
 
 <center><h3>Welcome to Codetlin - your best online Kotlin code inspector</h3> </center>
 
@@ -15,7 +21,7 @@
 <p>
     <h4>Drop your project into below form, check boxes and watch magic happens!</h4>
 
-</p>
+
 
 <br>
 <br>
@@ -31,46 +37,31 @@
 
 <br>
 <br>
-
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8">
-            <div flow-init="" flow-files-submitted="$flow.upload()" class="ng-scope">
-                <div class="drop" flow-drop="" ng-class="dropClass">
-                    <span class="btn btn-default" flow-btn="">Upload File<input type="file" multiple="multiple" style="visibility: hidden; position: absolute;"></span>
-                    <span class="btn btn-default" flow-btn="" flow-directory="" ng-show="$flow.supportDirectory">Upload Folder<input type="file" multiple="multiple" name="upfiles" webkitdirectory="webkitdirectory" style="visibility: hidden; position: absolute;"></span>
-                    <b>OR</b>
-                    Drag And Drop your file here
-                </div>
-
-                <br>
-
-                <div class="well">
-                    <a class="btn btn-small btn-success" ng-click="$flow.resume()">Resume all</a>
-                    <a class="btn btn-small btn-danger" ng-click="$flow.pause()">Pause all</a>
-                    <a class="btn btn-small btn-info" ng-click="$flow.cancel()">Cancel all</a>
-                    <span class="label label-info ng-binding">Total Size: 0bytes</span>
-                </div>
-
-                <div>
-
-                    <!-- ngRepeat: file in $flow.files -->
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            Content 2
-        </div>
-
-    </div>
-
-
-
-
-
+<button class="custom-btn btn-outlined btn-theme btn-lg" ng-click="upload()">TEST</button>
+<div class = "container">
+    <form action="/upload"
+          class="dropzone"
+          id="myD"
+          enctype="multipart/form-data"></form>
 </div>
 
+
+<div class="upload-btn-wrapper">
+    <button class="btn">Upload a directory <input type='file' name="ff" id = "inputa" webkitdirectory mozdirectory/></button>
+</div>
+<br>
+
+<div class="dropzone-previews" id = "pre">
+    <span style="font-size:8.0em;" class="glyphicon glyphicon-folder-open"></span><br>
+
+
+    <div id = "totalFiles"></div>
+    <br>
+    <div id = "totalSize"></div>
+</div>
+<br>
+<br>
+<button class="custom-btn btn-outlined btn-theme btn-lg" ng-click="clearFiles()">Clear all files</button>
 
 </body>
 

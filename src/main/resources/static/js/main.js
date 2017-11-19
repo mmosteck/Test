@@ -8,20 +8,18 @@
  */
 
 
-
-
 var app = angular.module('app', []);
-
-
+console.log("keks");
 Dropzone.options.myD = {
     uploadMultiple:true,
+    clickable: false,
     paramName: "plik",
     autoProcessQueue: false,
     parallelUploads: 5,
     acceptedFiles: ".kt",
-    previewsContainer: "",
+    //previewsContainer: "",
    // previewTemplate: '<div style="display:none"></div>',
-    previewTemplate: '<div class="dz-preview dz-file-preview" width = "50px"><div class="dz-details"><div class="dz-filename"><span data-dz-name></span></div><div class="dz-size" data-dz-size></div></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div>',
+    previewTemplate: '<div class="dz-preview dz-file-preview"><div class="dz-details"><div class="dz-filename"><span data-dz-name></span></div><div class="dz-size" data-dz-size></div></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div>',
     init: function()
     {
         var dropzone = Dropzone.forElement(".dropzone");
@@ -30,13 +28,6 @@ Dropzone.options.myD = {
 
         this.on("addedfile", function(file) {
             var extension = file.name.split('.').pop();
-
-            var display = document.getElementById("pre");
-            //display.style.display = "initial";
-
-            console.log("added file " + file);
-            console.log("current files " + this.getAddedFiles());
-            console.log("accepted files " + this.getAcceptedFiles());
             dropzone.filesCount++;
             dropzone.filesSize += file.size;
 
@@ -58,20 +49,13 @@ Dropzone.options.myD = {
                     dropzone.filesSize -= file.size;
                 }
             }
-
-           // filesCount = dropzone.getAcceptedFiles();
-           // document.getElementById("totalFiles").innerText = "Project: " + projectName;
             updateProjectView();
-            //document.getElementById("totalFiles").innerText = "Total files: " + dropzone.filesCount;
-           // document.getElementById("totalSize").innerText = "Total project size: " + dropzone.filesSize + " bytes";
-
-
         });
+
         var input = document.getElementById("inputa");
         input.onchange = function(event)
         {
             var dropzone = Dropzone.forElement(".dropzone");
-            console.log("on change called")
             dropzone.removeAllFiles(true);
             var filesArray = Array.from(input.files);
             for(var i = 0; i < filesArray.length; i++)
@@ -80,10 +64,6 @@ Dropzone.options.myD = {
             }
         }
     }};
-   // File extension validation
-
-
-
 
 app.controller("Ctrl", function ($scope, $http) {
 
@@ -91,11 +71,6 @@ app.controller("Ctrl", function ($scope, $http) {
     {
         var dropzone = Dropzone.forElement(".dropzone");
         dropzone.processQueue();
-
-      // var form = document.forms['filesform'];
-     //  console.log(form);
-      // form.submit();
-
     };
 
     $scope.clearFiles = function()
@@ -104,7 +79,8 @@ app.controller("Ctrl", function ($scope, $http) {
         dropzone.removeAllFiles();
         dropzone.filesSize = 0;
         dropzone.filesCount = 0;
-        updateProjectView();
+        //updateProjectView();
+        document.getElementById("pre").style.visibility = "hidden";
     };
 
 
@@ -112,6 +88,7 @@ app.controller("Ctrl", function ($scope, $http) {
 
 function updateProjectView() {
     var dropzone = Dropzone.forElement(".dropzone");
+    document.getElementById("pre").style.visibility = "visible";
     document.getElementById("totalFiles").innerText = "Total files: " + dropzone.filesCount;
     document.getElementById("totalSize").innerText = "Total project size: " + dropzone.filesSize + " bytes";
 }

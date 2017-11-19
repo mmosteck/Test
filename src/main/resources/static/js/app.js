@@ -2,7 +2,6 @@
 function loadHome()
 {
         $("#content").load('main.html');
-
 }
 
 $("#home").click(function()
