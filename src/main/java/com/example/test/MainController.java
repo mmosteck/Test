@@ -88,6 +88,6 @@ public class MainController
 
         String [] args = new String [] {"--input", tempPath.toString(), " -cr", tempConfig.toString()};
         Main.main(args);
-        //FileUtils.deleteDirectory(tempPath.toFile());
+        FileUtils.deleteDirectory(tempPath.toFile());
     }
 }

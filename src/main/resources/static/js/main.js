@@ -80,7 +80,8 @@ app.controller("Ctrl", function ($scope, $http) {
         dropzone.filesSize = 0;
         dropzone.filesCount = 0;
         //updateProjectView();
-        document.getElementById("pre").style.visibility = "hidden";
+        document.getElementById("pre").style.display = "none";
+        document.getElementById("clearFilesButton").style.display = "none";
     };
 
 
@@ -88,7 +89,8 @@ app.controller("Ctrl", function ($scope, $http) {
 
 function updateProjectView() {
     var dropzone = Dropzone.forElement(".dropzone");
-    document.getElementById("pre").style.visibility = "visible";
+    document.getElementById("pre").style.display = "inline";
+    document.getElementById("clearFilesButton").style.display = "inline";
     document.getElementById("totalFiles").innerText = "Total files: " + dropzone.filesCount;
     document.getElementById("totalSize").innerText = "Total project size: " + dropzone.filesSize + " bytes";
 }

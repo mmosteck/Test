@@ -379,10 +379,3 @@ migration:
     # your.package.Class: new.package.or.Class
     # for example:
     # io.gitlab.arturbosch.detekt.api.Rule: io.gitlab.arturbosch.detekt.rule.Rule
-
-build:
-  warningThreshold: 5
-  failThreshold: 9
-   FunctionMinLength:
-      active: false
-      minimumFunctionNameLength: 3
