@@ -1,5 +1,3 @@
-<!DOCTYPE HTML>
-
 <html xmlns="http://www.w3.org/1999/xhtml" ng-app = "app">
 
 
@@ -44,7 +42,6 @@
         </ul>
 
     </div>
-
 </nav>
 
 
@@ -89,64 +86,44 @@
 
                 </div>
 
-
-
-
-
             </div>
             <div class="col-md-4">
-
 
                 <div class="dropzone-previews" id = "pre" style="display:none ">
-                    <span style="font-size:8.0em;" class="glyphicon glyphicon-folder-open"></span>
-
-
-
-                    <div id = "totalFiles"></div>
-                    <br>
-                    <div id = "totalSize"></div>
+                    <div id = "totalFiles" style="text-align: center; font-size: 50px"></div>
                 </div>
-
-
 
             </div>
             <div class="col-md-4">
-
-
                 <div class="text-right">
                     <button class="custom-btn btn-outlined btn-theme btn-lg" ng-click="clearFiles()" id="clearFilesButton" style="display: none">Clear all files</button>
                 </div>
 
-
-
             </div>
-
-
-
 
         </div>
         <div class="col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center"><h3>Codetlin settings</h3></div>
                 <div class="panel-body">
+                    <form id="settings" action="/set" method="post">
                     <div class="col-md-6">
-
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">
+                                <input class="form-check-input" type="checkbox" id="comment" value="" form="myD">
                                 Ignore comments
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">
+                                <input class="form-check-input" type="checkbox" id = "naming" value="">
                                 Ignore naming conventions
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">
-                                Check for documentation
+                                <input class="form-check-input" type="checkbox" id = "newLine" value="">
+                                Check for new lines at file end
                             </label>
                         </div>
 
@@ -172,7 +149,7 @@
                                 <label for="quantity">Max returns in single function:</label> <input type="number" id="quantity" min="1" max="5" value="2"/></div>
                         </div>
                     </div>
-
+                    </form>
 
                     </div>
 

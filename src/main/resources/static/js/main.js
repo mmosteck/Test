@@ -26,6 +26,21 @@ Dropzone.options.myD = {
         dropzone["filesCount"] = 0;
         dropzone["filesSize"] = 0;
 
+        this.on("sending", function(file, xhr, formData) {
+
+            var comments = document.getElementById("comment");
+            var naming = document.getElementById("naming");
+            var newLine = document.getElementById("newLine");
+            var styleWeight = document.getElementById("styleWeight");
+            var quantity = document.getElementById("quantity");
+
+            formData.set("comment", comments.checked);
+            formData.set("naming", naming.checked);
+            formData.set("newLine", newLine.checked);
+            formData.set("styleWeight", styleWeight.value);
+            formData.set("quantity", quantity.value);
+        });
+
         this.on("addedfile", function(file) {
             var extension = file.name.split('.').pop();
             dropzone.filesCount++;
@@ -70,7 +85,9 @@ app.controller("Ctrl", function ($scope, $http) {
     $scope.upload = function ()
     {
         var dropzone = Dropzone.forElement(".dropzone");
+
         dropzone.processQueue();
+        addSettings();
     };
 
     $scope.clearFiles = function()
@@ -86,12 +103,20 @@ app.controller("Ctrl", function ($scope, $http) {
 
 
 });
-
 function updateProjectView() {
     var dropzone = Dropzone.forElement(".dropzone");
     document.getElementById("pre").style.display = "inline";
     document.getElementById("clearFilesButton").style.display = "inline";
     document.getElementById("totalFiles").innerText = "Total files: " + dropzone.filesCount;
-    document.getElementById("totalSize").innerText = "Total project size: " + dropzone.filesSize + " bytes";
+   // document.getElementById("totalSize").innerText = "Total project size: " + dropzone.filesSize + " bytes";
+}
+
+function addSettings(formData)
+{
+
+
+   // console.log(form);
+   // form.append("com", comments);
+   // form.setAttribute("ff", comments);
 }
 

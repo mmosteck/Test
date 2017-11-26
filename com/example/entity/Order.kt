@@ -1,6 +1,7 @@
 package com.example.entity
 
 import java.util.*
+import kotlin.Byte
 
 data class Order(val date:Date, val customer: Customer, val productList:Map<Product, Int>, val orderNumber:Int)
 {
@@ -11,8 +12,15 @@ data class Order(val date:Date, val customer: Customer, val productList:Map<Prod
             calculate(sum + it.key.price * it.value, iterator)
         }
 
+        val i = 5
+
+        if (i == 5)
+        {}
+
         return calculate(0.0, productList.iterator())
     }
+
+
 
     fun cal():Double
     {

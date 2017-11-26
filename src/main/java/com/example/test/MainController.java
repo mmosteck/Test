@@ -8,12 +8,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,13 +37,12 @@ public class MainController
         return "index.html";
     }
 
-    @RequestMapping(value = "/up",
+    @RequestMapping(value = "/set",
     method = RequestMethod.POST
            )
-    public @ResponseBody void info(@RequestParam("ff") List<MultipartFile> files)
+    public @ResponseBody void info(@RequestParam("firstc") Boolean c)
     {
-        System.out.println("input files: ");
-        files.forEach(f -> System.out.println(f.getOriginalFilename()));
+        System.out.println("AAAAAAAAAASDF@#RFGGGGGGGGGGGGGGGGGGGGGGGGGG " + c);
     }
 
     @RequestMapping("/t")
@@ -54,12 +55,19 @@ public class MainController
     @RequestMapping(value = "/upload",
             method = RequestMethod.POST
            )
-    public @ResponseBody void handleFileUpload(@RequestParam("plik") List<MultipartFile> files) throws IOException
+    public @ResponseBody void handleFileUpload(@RequestParam("plik") List<MultipartFile> files,
+            @RequestParam("comment") Boolean comment,
+            @RequestParam("naming") Boolean naming,
+            @RequestParam("newLine") Boolean newLine,
+            @RequestParam("styleWeight") Integer styleWeight,
+            @RequestParam("quantity") Integer quantity) throws IOException, ServletException
     {
-        System.out.println("dropzone files: ");
-        files.forEach(f -> System.out.println(f.getOriginalFilename()));
-
+        //System.out.println("dropzone files: ");
+       // files.forEach(f -> System.out.println(f.getOriginalFilename()));
+        //System.out.println(o);
         Path tempPath = Files.createTempDirectory("uploadedFiles");
+        System.out.println("comment: " + comment + "\nnaming: " + naming + "\nempty_blocks: " + newLine + "\nweight: " + styleWeight + "\nqua: " + quantity);
+       // request.getParameterMap().forEach((key, value) -> System.out.println(key + ":" + value));
 
         for(MultipartFile currentFile: files)
         {
@@ -77,16 +85,38 @@ public class MainController
         //System.out.println(tempConfig.toString());
         //tempConfig.toFile().delete();
         //sc.close();
-
         FileWriter fw = new FileWriter(tempConfig.toFile(), true);
-        fw.write("build:\n" +
-                "  warningThreshold: 5\n" +
-                "  failThreshold: 10");
+        Files.lines(tempConfig);
+        if(comment)
+        {
+            fw.write("comments:\n" +
+                    "  active: false\n");
+        }
+        if(naming)
+        {
+            fw.write("style:\n" +
+                    "PackageNaming:\n" +
+                    "    active: false\n" +
+                    "ClassNaming:\n" +
+                    "    active: false\n" +
+                    "EnumNaming:\n" +
+                    "    active: false\n" +
+                    "FunctionNaming:\n" +
+                    "    active: false\n");
+        }
+        if(newLine)
+        {
+            fw.write("\nstyle:\n" +
+                    "NewLineAtEndOfFile:\n" +
+                    "    active: true");
+        }
+
+
         fw.close();
         System.out.println(tempPath.toString());
         System.out.println(tempConfig.toString());
 
-        String [] args = new String [] {"--input", tempPath.toString(), " -cr", tempConfig.toString()};
+        String [] args = new String [] {"--input", tempPath.toString(), " -c", tempConfig.toString()};
         Main.main(args);
         FileUtils.deleteDirectory(tempPath.toFile());
     }
