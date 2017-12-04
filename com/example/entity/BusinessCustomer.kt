@@ -6,3 +6,9 @@ class BusinessCustomer (name: String, email: String, phone:Int, val discount:Dou
         return "${super.toString()}\n\tdiscount: $discount"
     }
 }
+
+
+
+
+
+

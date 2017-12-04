@@ -19,6 +19,7 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -30,6 +31,11 @@ import java.util.Scanner;
 @EnableAutoConfiguration
 public class MainController
 {
+    private static final String ACTIVE_FALSE = "  active: false";
+    private static final String ACTIVE_FALSE_DOUBLESPACE = "    active: false";
+
+    private static final String ACTIVE_TRUE_DOUBLESPACE = "    active: true";
+
     @RequestMapping("/")
     String index(Model model)
     {
@@ -62,12 +68,8 @@ public class MainController
             @RequestParam("styleWeight") Integer styleWeight,
             @RequestParam("quantity") Integer quantity) throws IOException, ServletException
     {
-        //System.out.println("dropzone files: ");
-       // files.forEach(f -> System.out.println(f.getOriginalFilename()));
-        //System.out.println(o);
         Path tempPath = Files.createTempDirectory("uploadedFiles");
         System.out.println("comment: " + comment + "\nnaming: " + naming + "\nempty_blocks: " + newLine + "\nweight: " + styleWeight + "\nqua: " + quantity);
-       // request.getParameterMap().forEach((key, value) -> System.out.println(key + ":" + value));
 
         for(MultipartFile currentFile: files)
         {
@@ -79,45 +81,63 @@ public class MainController
         Path tempConfig = Files.createTempFile(tempPath, "config", ".yml");
         //tempConfig.toFile().deleteOnExit();
         Files.copy(defaultConfig.toPath(), tempConfig, StandardCopyOption.REPLACE_EXISTING);
-       // Scanner sc = new Scanner(tempConfig.toFile());
 
-        //System.out.println(sc.next());
-        //System.out.println(tempConfig.toString());
-        //tempConfig.toFile().delete();
-        //sc.close();
-        FileWriter fw = new FileWriter(tempConfig.toFile(), true);
-        Files.lines(tempConfig);
         if(comment)
         {
-            fw.write("comments:\n" +
-                    "  active: false\n");
+            replaceNextLine(tempConfig, "comments:", ACTIVE_FALSE);
         }
+
         if(naming)
         {
-            fw.write("style:\n" +
-                    "PackageNaming:\n" +
-                    "    active: false\n" +
-                    "ClassNaming:\n" +
-                    "    active: false\n" +
-                    "EnumNaming:\n" +
-                    "    active: false\n" +
-                    "FunctionNaming:\n" +
-                    "    active: false\n");
+            replaceNextLine(tempConfig, "  PackageNaming:", ACTIVE_FALSE_DOUBLESPACE);
+            replaceNextLine(tempConfig, "  ClassNaming:", ACTIVE_FALSE_DOUBLESPACE);
+            replaceNextLine(tempConfig, "  EnumNaming:", ACTIVE_FALSE_DOUBLESPACE);
+            replaceNextLine(tempConfig, "  FunctionNaming:", ACTIVE_FALSE_DOUBLESPACE);
+            replaceNextLine(tempConfig, "  VariableNaming:", ACTIVE_FALSE_DOUBLESPACE);
+            replaceNextLine(tempConfig, "  ConstantNaming:", ACTIVE_FALSE_DOUBLESPACE);
         }
-        if(newLine)
+
+        if (newLine)
         {
-            fw.write("\nstyle:\n" +
-                    "NewLineAtEndOfFile:\n" +
-                    "    active: true");
+            replaceNextLine(tempConfig, "  NewLineAtEndOfFile:", ACTIVE_TRUE_DOUBLESPACE);
         }
 
+        if(quantity != 2)
+            replaceReturns(tempConfig, "  ReturnCount:", quantity);
 
-        fw.close();
         System.out.println(tempPath.toString());
         System.out.println(tempConfig.toString());
 
         String [] args = new String [] {"--input", tempPath.toString(), " -c", tempConfig.toString()};
         Main.main(args);
         FileUtils.deleteDirectory(tempPath.toFile());
+    }
+
+    private void replaceNextLine(Path config, String line, String toReplace) throws IOException
+    {
+        List<String> lines = Files.readAllLines(config);
+        for (int i = 0; i < lines.size(); i++) {
+            String currentLine = lines.get(i);
+            if(currentLine.equals(line))
+            {
+                lines.set(i + 1, toReplace);
+                break;
+            }
+        }
+        Files.write(config, lines, StandardCharsets.UTF_8);
+    }
+
+    private void replaceReturns(Path config, String line, int maxReturns) throws IOException
+    {
+        List<String> lines = Files.readAllLines(config);
+        for (int i = 0; i < lines.size(); i++) {
+            String currentLine = lines.get(i);
+            if(currentLine.equals(line))
+            {
+                lines.set(i + 2, "    max: " + maxReturns);
+                break;
+            }
+        }
+        Files.write(config, lines, StandardCharsets.UTF_8);
     }
 }
