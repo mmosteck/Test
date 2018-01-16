@@ -15,7 +15,7 @@ Dropzone.options.myD = {
     clickable: false,
     paramName: "plik",
     autoProcessQueue: false,
-    parallelUploads: 5,
+    parallelUploads: 100,
     acceptedFiles: ".kt",
     //previewsContainer: "",
    // previewTemplate: '<div style="display:none"></div>',
