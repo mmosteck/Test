@@ -1,31 +1,24 @@
-package com.example.test;
+package com.codetlin.controller;
 
 
 
+import com.codetlin.result.ResultCalculator;
 import io.gitlab.arturbosch.detekt.cli.Main;
 import org.apache.commons.io.FileUtils;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileSystemUtils;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
-import java.util.Scanner;
 
 @Controller
 @EnableAutoConfiguration
@@ -33,7 +26,6 @@ public class MainController
 {
     private static final String ACTIVE_FALSE = "  active: false";
     private static final String ACTIVE_FALSE_DOUBLESPACE = "    active: false";
-
     private static final String ACTIVE_TRUE_DOUBLESPACE = "    active: true";
 
     @RequestMapping("/")
@@ -51,26 +43,41 @@ public class MainController
         System.out.println("AAAAAAAAAASDF@#RFGGGGGGGGGGGGGGGGGGGGGGGGGG " + c);
     }
 
-    @RequestMapping("/t")
+    @RequestMapping(value = "/test.html", method = RequestMethod.GET)
     String about()
     {
         //System.out.println("first page!");
-        return "test.html";
+        return "result.html";
     }
 
-    @RequestMapping(value = "/upload",
-            method = RequestMethod.POST
-           )
-    public @ResponseBody void handleFileUpload(@RequestParam("plik") List<MultipartFile> files,
-            @RequestParam("comment") Boolean comment,
-            @RequestParam("naming") Boolean naming,
-            @RequestParam("newLine") Boolean newLine,
-            @RequestParam("styleWeight") Integer styleWeight,
-            @RequestParam("quantity") Integer quantity) throws IOException, ServletException
+    @RequestMapping( value = "/uploada", method = RequestMethod.POST)
+    public String aa(@RequestParam("plik") List<MultipartFile> files,
+              @RequestParam("comment") Boolean comment,
+              @RequestParam("naming") Boolean naming,
+              @RequestParam("newLine") Boolean newLine,
+              @RequestParam("styleWeight") Integer styleWeight,
+              @RequestParam("quantity") Integer quantity,
+                                    HttpServletResponse response) throws IOException
+    {
+        //response.sendRedirect("redirect:/test.html");
+        return "result.html";
+
+    }
+
+
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String handleFileUpload(@RequestParam("plik") List<MultipartFile> files,
+                                         @RequestParam("comment") Boolean comment,
+                                         @RequestParam("naming") Boolean naming,
+                                         @RequestParam("newLine") Boolean newLine,
+                                         @RequestParam("styleWeight") Integer styleWeight,
+                                         @RequestParam("quantity") Integer quantity                                                 ) throws Exception
     {
         Path tempPath = Files.createTempDirectory("uploadedFiles");
         System.out.println("comment: " + comment + "\nnaming: " + naming + "\nempty_blocks: " + newLine + "\nweight: " + styleWeight + "\nqua: " + quantity);
 
+        System.out.println("uploaded " + files.size() + " files ------------------------------");
         for(MultipartFile currentFile: files)
         {
             Path tempFile = Files.createTempFile(tempPath, "temp", ".kt");
@@ -108,9 +115,18 @@ public class MainController
         System.out.println(tempPath.toString());
         System.out.println(tempConfig.toString());
 
-        String [] args = new String [] {"--input", tempPath.toString(), " -c", tempConfig.toString()};
+        String [] args = new String [] {"--input", tempPath.toString(), " -c", tempConfig.toString(), " --output", tempPath.toString()};
         Main.main(args);
+
+
+        ResultCalculator resultCalculator = new ResultCalculator();
+        resultCalculator.calculateRatings(new File(tempPath.toString() + "\\detekt-checkstyle.xml"));
+        System.out.println("overall result: " + resultCalculator.getOverallRating());
+
+        //response.sendRedirect("t");
         FileUtils.deleteDirectory(tempPath.toFile());
+
+        return "redirect:/result.html";
     }
 
     private void replaceNextLine(Path config, String line, String toReplace) throws IOException

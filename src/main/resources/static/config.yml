@@ -3,7 +3,7 @@ failFast: false
 
 build:
   warningThreshold: 5
-  failThreshold: 16
+  failThreshold: 150
   weights:
     complexity: 2
     formatting: 1
@@ -39,19 +39,19 @@ potential-bugs:
   DuplicateCaseInWhenExpression:
     active: true
   EqualsAlwaysReturnsTrueOrFalse:
-    active: false
+    active: true
   EqualsWithHashCodeExist:
     active: true
   InvalidLoopCondition:
     active: false
   WrongEqualsTypeParameter:
-    active: false
+    active: true
   IteratorHasNextCallsNextMethod:
     active: false
   ExplicitGarbageCollectionCall:
     active: true
   UnconditionalJumpStatementInLoop:
-    active: false
+    active: true
   IteratorNotThrowingNoSuchElementException:
     active: false
   UnreachableCode:
@@ -63,7 +63,7 @@ potential-bugs:
   UnsafeCallOnNullableType:
     active: false
   UnsafeCast:
-    active: false
+    active: true
   UselessPostfixExpression:
     active: false
 
